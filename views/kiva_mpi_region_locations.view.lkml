@@ -1,5 +1,14 @@
 view: kiva_mpi_region_locations {
-  sql_table_name: lukathesis.kiva_mpi_region_locations ;;
+  derived_table: {
+    sql: select row_number() over(order by country) as prime_key, *
+        from lukathesis.kiva_mpi_region_locations ;;
+  }
+
+  dimension: prime_key {
+    type: number
+    primary_key: yes
+    sql: ${TABLE}.prime_key ;;
+  }
 
   dimension: country {
     type: string

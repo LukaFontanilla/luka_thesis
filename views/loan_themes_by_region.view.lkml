@@ -1,5 +1,14 @@
 view: loan_themes_by_region {
-  sql_table_name: lukathesis.loan_themes_by_region ;;
+  derived_table: {
+      sql: select row_number() over(order by country) as prime_key, *
+      from lukathesis.loan_themes_by_region ;;
+  }
+
+  dimension: prime_key {
+    type: number
+    primary_key: yes
+    sql: ${TABLE}.prime_key ;;
+  }
 
   dimension: amount {
     type: number
