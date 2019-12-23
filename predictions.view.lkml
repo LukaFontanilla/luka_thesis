@@ -44,6 +44,7 @@ view: future_loan_count_model {
       CREATE OR REPLACE MODEL ${SQL_TABLE_NAME}
       OPTIONS(model_type='linear_reg'
         , input_label_cols=['count']
+        , MAX_ITERATIONS=3
         ) AS
       SELECT
          *
