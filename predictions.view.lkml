@@ -7,7 +7,7 @@ view: training_input {
       #column: region {}
       column: sector {}
       column: borrower_genders {}
-      column: lender_count {}
+      #column: lender_count {}
       column: count {}
       filters: {
         field: kiva_loans_main.date_year
@@ -25,7 +25,7 @@ view: testing_input {
       #column: region {}
       column: sector {}
       column: borrower_genders {}
-      column: lender_count {}
+      #column: lender_count {}
       column: count {}
       filters: {
         field: kiva_loans_main.date_year
@@ -120,7 +120,7 @@ view: future_input {
       #column: region {}
       column: sector {}
       column: borrower_genders {}
-      column: lender_count {}
+      #column: lender_count {}
       # column: count {} : commenting out as the variable for the prediction
       filters: {
         field: kiva_loans_main.date_year
