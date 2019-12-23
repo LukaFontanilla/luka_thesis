@@ -45,7 +45,7 @@ view: future_loan_count_model {
       OPTIONS(model_type='linear_reg'
         , input_label_cols=['count']
         , MAX_ITERATIONS=10
-        , EARL_STOP={FALSE}
+        , EARL_STOP=FALSE
        -- , LS_INIT_LEARN_RATE=.45
         ) AS
       SELECT
