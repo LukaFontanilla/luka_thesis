@@ -2,12 +2,12 @@
 view: training_input {
   derived_table: {
     explore_source: kiva_loans_main {
-      # column: id {}
+      column: id {}
       column: country {}
-      column: region {}
+      #column: region {}
       column: sector {}
       column: borrower_genders {}
-      # column: lender_count {}
+      column: lender_count {}
       column: count {}
       filters: {
         field: kiva_loans_main.date_year
@@ -20,12 +20,12 @@ view: training_input {
 view: testing_input {
   derived_table: {
     explore_source: kiva_loans_main {
-      # column: id {}
+      column: id {}
       column: country {}
-      column: region {}
+      #column: region {}
       column: sector {}
       column: borrower_genders {}
-      # column: lender_count {}
+      column: lender_count {}
       column: count {}
       filters: {
         field: kiva_loans_main.date_year
@@ -44,10 +44,12 @@ view: future_loan_count_model {
       CREATE OR REPLACE MODEL ${SQL_TABLE_NAME}
       OPTIONS(model_type='linear_reg'
         , input_label_cols=['count']
-        , MAX_ITERATIONS=3
+        , MAX_ITERATIONS=10
+        , EARL_STOP={FALSE}
+       -- , LS_INIT_LEARN_RATE=.45
         ) AS
       SELECT
-         *
+         * EXCEPT(id)
       FROM ${training_input.SQL_TABLE_NAME};;
   }
 }
@@ -115,10 +117,10 @@ view: future_input {
     explore_source: kiva_loans_main {
       column: id {}
       column: country {}
-      column: region {}
+      #column: region {}
       column: sector {}
       column: borrower_genders {}
-      #column: lender_count {}
+      column: lender_count {}
       # column: count {} : commenting out as the variable for the prediction
       filters: {
         field: kiva_loans_main.date_year
