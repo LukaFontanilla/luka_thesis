@@ -42,8 +42,8 @@ view: future_loan_count_model {
     persist_for: "168 hours"
     sql_create:
       CREATE OR REPLACE MODEL ${SQL_TABLE_NAME}
-      OPTIONS(model_type='logistic_reg'
-        , labels=['will_get_loan_in_future']
+      OPTIONS(model_type='linear_reg'
+        , input_label_cols=['count']
         ) AS
       SELECT
          * EXCEPT(id)
@@ -54,7 +54,6 @@ view: future_loan_count_model {
 ######################## TRAINING INFORMATION #############################
 explore:  future_loan_count_model_evaluation {}
 explore: future_loan_count_model_training_info {}
-explore: roc_curve {}
 
 # VIEWS:
 view: future_loan_count_model_evaluation {
@@ -63,56 +62,18 @@ view: future_loan_count_model_evaluation {
           MODEL ${future_loan_count_model.SQL_TABLE_NAME},
           (SELECT * FROM ${testing_input.SQL_TABLE_NAME}));;
   }
-  dimension: recall {type: number value_format_name:percent_2}
-  dimension: accuracy {type: number value_format_name:percent_2}
-  dimension: f1_score {type: number value_format_name:percent_3}
-  dimension: log_loss {type: number}
-  dimension: roc_auc {type: number}
-}
+  dimension: mean_absolute_error {type: number value_format_name:percent_2}
+  dimension: mean_squared_error {type: number value_format_name:percent_2}
+  dimension: mean_squared_log_error {type: number value_format_name:percent_3}
+  dimension: median_absolute_error {type: number}
 
-view: roc_curve {
-  derived_table: {
-    sql: SELECT * FROM ml.ROC_CURVE(
-        MODEL ${future_loan_count_model.SQL_TABLE_NAME},
-        (SELECT * FROM ${testing_input.SQL_TABLE_NAME}));;
-  }
-  dimension: threshold {
-    type: number
-    # link: {
-    #   label: "Likely Customers to Purchase"
-    #   url: "/explore/bqml_ga_demo/ga_sessions?fields=ga_sessions.fullVisitorId,future_purchase_prediction.max_predicted_score&f[future_purchase_prediction.predicted_will_purchase_in_future]=%3E%3D{{value}}"
-    #   icon_url: "http://www.looker.com/favicon.ico"
-    # }
-  }
-  dimension: recall {type: number value_format_name: percent_2}
-  dimension: false_positive_rate {type: number}
-  dimension: true_positives {type: number }
-  dimension: false_positives {type: number}
-  dimension: true_negatives {type: number}
-  dimension: false_negatives {type: number }
-  dimension: precision {
-    type:  number
-    value_format_name: percent_2
-    sql:  ${true_positives} / NULLIF((${true_positives} + ${false_positives}),0);;
-  }
-  measure: total_false_positives {
-    type: sum
-    sql: ${false_positives} ;;
-  }
-  measure: total_true_positives {
-    type: sum
-    sql: ${true_positives} ;;
-  }
-  dimension: threshold_accuracy {
-    type: number
-    value_format_name: percent_2
-    sql:  1.0*(${true_positives} + ${true_negatives}) / NULLIF((${true_positives} + ${true_negatives} + ${false_positives} + ${false_negatives}),0);;
-  }
-  dimension: threshold_f1 {
-    type: number
-    value_format_name: percent_3
-    sql: 2.0*${recall}*${precision} / NULLIF((${recall}+${precision}),0);;
-  }
+  ##########
+  dimension: r2_score {type: number}
+  # The R2 score is a statistical measure that determines if the linear regression predictions approximate the actual data.
+  # 0 indicates that the model explains none of the variability of the response data around the mean.
+  # 1 indicates that the model explains all the variability of the response data around the mean.
+  ##########
+  dimension: explained_variance {type: number}
 }
 
 view: future_loan_count_model_training_info {
@@ -175,14 +136,4 @@ view: future_purchase_prediction {
   dimension: predicted_loan_count_in_future {type: number}
   dimension: country {type: string hidden: yes}
   dimension: sector {type: string hidden: yes}
-  measure: max_predicted_score {
-    type: max
-    value_format_name: percent_2
-    sql: ${predicted_loan_count_in_future} ;;
-  }
-  measure: average_predicted_score {
-    type: average
-    value_format_name: percent_2
-    sql: ${predicted_loan_count_in_future} ;;
-  }
 }
