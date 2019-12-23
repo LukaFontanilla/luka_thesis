@@ -2,12 +2,12 @@
 view: training_input {
   derived_table: {
     explore_source: kiva_loans_main {
-      column: id {}
+      # column: id {}
       column: country {}
       column: region {}
       column: sector {}
       column: borrower_genders {}
-      column: lender_count {}
+      # column: lender_count {}
       column: count {}
       filters: {
         field: kiva_loans_main.date_year
@@ -20,12 +20,12 @@ view: training_input {
 view: testing_input {
   derived_table: {
     explore_source: kiva_loans_main {
-      column: id {}
+      # column: id {}
       column: country {}
       column: region {}
       column: sector {}
       column: borrower_genders {}
-      column: lender_count {}
+      # column: lender_count {}
       column: count {}
       filters: {
         field: kiva_loans_main.date_year
@@ -46,7 +46,7 @@ view: future_loan_count_model {
         , input_label_cols=['count']
         ) AS
       SELECT
-         * EXCEPT(id)
+         *
       FROM ${training_input.SQL_TABLE_NAME};;
   }
 }
@@ -62,9 +62,9 @@ view: future_loan_count_model_evaluation {
           MODEL ${future_loan_count_model.SQL_TABLE_NAME},
           (SELECT * FROM ${testing_input.SQL_TABLE_NAME}));;
   }
-  dimension: mean_absolute_error {type: number value_format_name:percent_2}
-  dimension: mean_squared_error {type: number value_format_name:percent_2}
-  dimension: mean_squared_log_error {type: number value_format_name:percent_3}
+  dimension: mean_absolute_error {type: number}
+  dimension: mean_squared_error {type: number}
+  dimension: mean_squared_log_error {type: number}
   dimension: median_absolute_error {type: number}
 
   ##########
@@ -117,7 +117,7 @@ view: future_input {
       column: region {}
       column: sector {}
       column: borrower_genders {}
-      column: lender_count {}
+      #column: lender_count {}
       # column: count {} : commenting out as the variable for the prediction
       filters: {
         field: kiva_loans_main.date_year
