@@ -23,6 +23,31 @@ view: training_input_2 {
     }
   }
 
+view: testing_input_2 {
+  derived_table: {
+    explore_source: kiva_loans_main {
+      #column: id {}
+      column: country {}
+      column: region {}
+      column: activity {}
+      column: sector {}
+      column: borrower_genders {}
+      column: mpi { field: kiva_mpi_region_locations.mpi }
+      column: loan_theme_type { field: loan_themes_ids.loan_theme_type}
+      column: lender_count {}
+      column: fully_funded {}
+      filters: {
+        field: kiva_loans_main.date_year
+        value: "2017"
+      }
+      filters: {
+        field: kiva_loans_main.count
+        value: "NOT NULL"
+      }
+    }
+  }
+}
+
   view: predictions_model_2 {
     derived_table: {
       persist_for: "168 hours"
@@ -30,9 +55,9 @@ view: training_input_2 {
       CREATE OR REPLACE MODEL ${SQL_TABLE_NAME}
       OPTIONS (
         model_type='logistic_reg',
-        input_label_cols=['fully_funded'],
-        max_iterations=10,
-        early_stop=FALSE
+        labels=['fully_funded']
+        --max_iterations=10,
+        --early_stop=FALSE
         --l1_reg=0.025,
         --l2_reg=0.025
         )
@@ -44,47 +69,7 @@ view: training_input_2 {
   }
 
 #################### Evaluation #####################
-  view: test_input_2 {
-    derived_table: {
-      explore_source: kiva_loans_main {
-        #column: id {}
-        column: country {}
-        column: region {}
-        column: activity {}
-        column: sector {}
-        column: borrower_genders {}
-        column: mpi { field: kiva_mpi_region_locations.mpi }
-        column: loan_theme_type { field: loan_themes_ids.loan_theme_type}
-        column: lender_count {}
-        column: fully_funded {}
-        filters: {
-          field: kiva_loans_main.date_year
-          value: "2017"
-        }
-        filters: {
-          field: kiva_loans_main.count
-          value: "NOT NULL"
-        }
-      }
-    }
-  }
 
-  explore: model_evaluation_2 {}
-  view: model_evaluation_2 {
-    derived_table: {
-      sql: SELECT * FROM ml.EVALUATE(
-              MODEL ${predictions_model_2.SQL_TABLE_NAME},
-              (SELECT * FROM ${test_input_2.SQL_TABLE_NAME}
-              )
-            );;
-    }
-    dimension: mean_absolute_error {type:number}
-    dimension: mean_squared_error {type:number}
-    dimension: mean_squared_log_error {type:number}
-    dimension: median_absolute_error {type:number}
-    dimension: r2_score {type:number}
-    dimension: explained_variance {type:number}
-  }
 
 
 #################### Training #####################
@@ -97,7 +82,7 @@ view: future_purchase_model_evaluation {
   derived_table: {
     sql: SELECT * FROM ml.EVALUATE(
           MODEL ${predictions_model_2.SQL_TABLE_NAME},
-          (SELECT * FROM ${test_input_2.SQL_TABLE_NAME}));;
+          (SELECT * FROM ${testing_input_2.SQL_TABLE_NAME}));;
   }
   dimension: recall {type: number value_format_name:percent_2}
   dimension: accuracy {type: number value_format_name:percent_2}
@@ -110,15 +95,15 @@ view: roc_curve {
   derived_table: {
     sql: SELECT * FROM ml.ROC_CURVE(
         MODEL ${predictions_model_2.SQL_TABLE_NAME},
-        (SELECT * FROM ${test_input_2.SQL_TABLE_NAME}));;
+        (SELECT * FROM ${testing_input_2.SQL_TABLE_NAME}));;
   }
   dimension: threshold {
     type: number
-    link: {
-      label: ""
-      url: ""
-      icon_url: ""
-    }
+#     link: {
+#       label: ""
+#       url: ""
+#       icon_url: ""
+#     }
   }
   dimension: recall {type: number value_format_name: percent_2}
   dimension: false_positive_rate {type: number}
