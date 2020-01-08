@@ -3,14 +3,16 @@ view: training_input {
   derived_table: {
     explore_source: kiva_loans_main {
       #column: id {}
-      column: country {}
+      column: country{}
       column: region {}
-      column: activity {}
+      #column: activity {}
       column: sector {}
       column: borrower_genders {}
       column: mpi { field: kiva_mpi_region_locations.mpi }
       column: loan_theme_type { field: loan_themes_ids.loan_theme_type}
+      column: date_year {}
       column: lender_count {}
+      #column: loan_amount {}
       column: count {}
       filters: {
         field: kiva_loans_main.date_year
@@ -51,12 +53,14 @@ view: test_input {
       #column: id {}
       column: country {}
       column: region {}
-      column: activity {}
+      #column: activity {}
       column: sector {}
       column: borrower_genders {}
       column: mpi { field: kiva_mpi_region_locations.mpi }
       column: loan_theme_type { field: loan_themes_ids.loan_theme_type}
+      column: date_year {}
       column: lender_count {}
+      #column: loan_amount {}
       column: count {}
       filters: {
         field: kiva_loans_main.date_year
@@ -113,6 +117,22 @@ view: model_training_info {
   }
 }
 
+################### Weights #######################
+# explore: model_weights {}
+# view: model_weights {
+#   derived_table: {
+#     sql: SELECT * FROM ML.WEIGHTS(MODEL ${predictions_model.SQL_TABLE_NAME},
+#         STRUCT(true AS standardize)) ;;
+#   }
+#   dimension: processed_input {}
+#   dimension: weight {type: number}
+#   #dimension: category_weights.category {type:string}
+#   dimension: category_weights.weight {type:number}
+# }
+
+
+
+################### END ######################
 
 #################### Predictions #####################
 explore: future_prediction {}
@@ -122,12 +142,14 @@ view: future_input {
       column: id {}
       column: country {}
       column: region {}
-      column: activity {}
+      #column: activity {}
       column: sector {}
       column: borrower_genders {}
       column: mpi { field: kiva_mpi_region_locations.mpi }
       column: loan_theme_type { field: loan_themes_ids.loan_theme_type}
+      column: date_year {}
       column: lender_count {}
+      #column: loan_amount {}
       column: count {}
       filters: {
         field: kiva_loans_main.date_year
