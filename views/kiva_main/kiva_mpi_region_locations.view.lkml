@@ -41,6 +41,16 @@ view: kiva_mpi_region_locations {
     sql: ${TABLE}.lon ;;
   }
 
+  ##### location type #####
+
+  dimension: location {
+    type: location
+    sql_latitude: ${lat} ;;
+    sql_longitude: ${lon} ;;
+  }
+
+  ##### end #####
+
   dimension: mpi {
     type: number
     sql: ${TABLE}.MPI ;;

@@ -56,7 +56,12 @@ view: testing_input_2 {
       OPTIONS (
         model_type='logistic_reg',
         labels=['fully_funded']
-        --max_iterations=10,
+        --auto_class_weights=TRUE
+        max_iterations= {% if future_prediction_2.model_iterations._is_filtered %}
+                        {% parameter future_prediction_2.model_iterations %}
+                        {% else %}
+                          1
+                        {% endif %}
         --early_stop=FALSE
         --l1_reg=0.025,
         --l2_reg=0.025
@@ -73,9 +78,9 @@ view: testing_input_2 {
 
 
 #################### Training #####################
-explore:  future_purchase_model_evaluation {}
-explore: future_purchase_model_training_info {}
-explore: roc_curve {}
+#explore:  future_purchase_model_evaluation {}
+#explore: future_purchase_model_training_info {}
+#explore: roc_curve {}
 
 # VIEWS:
 view: future_purchase_model_evaluation {
@@ -107,6 +112,7 @@ view: roc_curve {
   }
   dimension: recall {type: number value_format_name: percent_2}
   dimension: false_positive_rate {type: number}
+  ##dimension: true_positive_rate {type: number}
   dimension: true_positives {type: number }
   dimension: false_positives {type: number}
   dimension: true_negatives {type: number}
@@ -211,4 +217,19 @@ view: future_purchase_model_training_info {
     dimension: sector {}
     dimension: actual_fully_funded {type:number sql:${TABLE}.count;;}
     dimension: predicted_fully_funded {type:number sql:${TABLE}.predicted_fully_funded;;}
+    parameter: model_iterations {
+      type: number
+      allowed_value: {
+        label: "5"
+        value: "5"
+      }
+      allowed_value: {
+        label: "10"
+        value: "10"
+      }
+      allowed_value: {
+        label: "15"
+        value: "15"
+      }
+    }
   }

@@ -38,6 +38,11 @@ explore: kiva_loans_main {
     type: inner
     sql_on: ${kiva_loans_main.country} = ${test_dt.country};;
   }
+  join: quick_window_function {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${kiva_loans_main.country} = ${quick_window_function.country} ;;
+  }
 }
 
 # explore: kiva_loans_main_1 {

@@ -13,13 +13,26 @@ view: kiva_loans_main {
     sql: ${TABLE}.activity ;;
   }
 
+  ### borrower_genders is currently in a string array ###
+
   dimension: borrower_genders {
     type: string
-    sql: REGEXP_REPLACE(${TABLE}.borrower_genders, "[[:punct:]]", " ");;
-#     html: {% assign borrow_genders = value | split: ' ' %}
-#           {% for gender in value %}
-#             {{value}}
-#           {% endfor %} ;;
+    sql: ${TABLE}.borrower_genders;;
+  }
+
+  dimension: borrower_genders_bucket {
+    type: string
+    sql: CASE
+            WHEN borrower_genders LIKE "male" AND borrower_genders NOT LIKE "%female%"
+            THEN "male_only"
+            WHEN borrower_genders LIKE "female" AND borrower_genders NOT LIKE "% male" OR SUBSTR(borrower_genders,0,1) LIKE "%fe"
+            THEN "female_only"
+         ELSE "male_female" END ;;
+  }
+
+  dimension: number_of_borrowers {
+    type: number
+    sql: ARRAY_LENGTH(SPLIT(kiva_loans_main.borrower_genders, ",")) ;;
   }
 
   dimension: country {
@@ -27,6 +40,27 @@ view: kiva_loans_main {
     map_layer_name: countries
     sql: ${TABLE}.country ;;
     #html: {{rendered_value}}||{{sector._rendered_value}} ;;
+  }
+
+  dimension: country_test {
+    type: string
+    sql: ${TABLE}.country ;;
+    html:
+    <a href="#drillmenu" target="_self">
+    <div class="vis">
+    <div class="vis-single-value" style="font-size:36px; background-image: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c); color:#000000">
+    <font color="#5A2FC2"; font-size:200%><center><b>{{value}}: </b>&nbsp; <img src="https://www.countryflags.io/{{country_code._value}}/shiny/64.png"></font>
+
+    <p>Total Amount of Loans: {{ count._value  }}</p>
+
+    <p style="float:left; font-family: Times, serif;">
+    <i class="fa fa-align-left">&nbsp;</i>First: {{ quick_window_function.sector1._value }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <i class="fa fa-align-center">&nbsp;</i>Second: {{ quick_window_function.sector2._value }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <i class="fa fa-align-right">&nbsp;</i>Third: {{ quick_window_function.sector3._value }}
+    </p></center>
+    </div>
+    </div>
+    </a>;;
   }
 
   ##### Country Comparitor #####
@@ -176,8 +210,8 @@ view: kiva_loans_main {
   dimension: use {
     type: string
     sql: REGEXP_REPLACE(${TABLE}.use, "[[:punct:]]", " ") ;;
-    html: {% assign kiva_loans_main.use = value %}
-            {{value | downcase }}:{% for %};;
+#     html: {% assign kiva_loans_main.use = value %}
+#             {{value | downcase }}:{% for %};;
   }
 
   measure: count {
@@ -198,4 +232,9 @@ view: kiva_loans_main {
     sql: ${count_yes}/${count} ;;
     value_format: "##.00%"
   }
+
+
+  ##### Measures to include
+  ### start working on sums, slicing up the measures using filters (on region, state, country, sector, etc.)
+  ### aggregate the type: number dimensions included median's, max's, filtered sum's, etc.
 }

@@ -1,6 +1,6 @@
 # Dynamic ranking table, this is the final table joined into the kiva loans main explore
 # because the window function isn't uniform to each NDT I had to write multiple queries in the
-# subselect
+# subquery
 
 view: test_dt {
  derived_table: {
@@ -65,6 +65,11 @@ view: test_dt {
     }
   }
 
+  dimension: prim_key {
+    type: string
+    primary_key: yes
+    sql: concat(${TABLE}.country, "|", ${TABLE}.sector, "|", cast(${TABLE}.rank AS string)) ;;
+  }
 
   dimension: country {
     type: string
@@ -79,5 +84,24 @@ view: test_dt {
   dimension: rank {
     type: number
     sql: ${TABLE}.rank ;;
+  }
+
+  dimension: rank_1 {
+    type: number
+    sql: ${rank} = 1 ;;
+  }
+
+  dimension: rank_2 {
+    type: number
+    sql: ${rank} = 2 ;;
+  }
+
+  dimension: rank_3 {
+    type: number
+    sql: ${rank} = 3 ;;
+  }
+
+  measure: count {
+    type: count
   }
 }
