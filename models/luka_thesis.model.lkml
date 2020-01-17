@@ -14,6 +14,7 @@ datagroup: luka_thesis_default_datagroup {
 persist_with: luka_thesis_default_datagroup
 
 explore: kiva_loans_main {
+  #sql_always_where: ${kiva_loans_main.country} = {% parameter quick_window_function.country_param %} ;;
   join: num {
     type: cross
     relationship: one_to_many
@@ -45,17 +46,4 @@ explore: kiva_loans_main {
   }
 }
 
-# explore: kiva_loans_main_1 {
-#   hidden: yes
-#   from: kiva_loans_main
-#   join: num {
-#     type: cross
-#     relationship: one_to_many
-#   }
-# }
-
-# explore: kiva_mpi_region_locations {}
-#
-# explore: loan_themes_by_region {}
-#
-# explore: loan_themes_ids {}
+explore: use_word_analysis {}

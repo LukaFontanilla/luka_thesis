@@ -10,22 +10,22 @@ view: quick_window_function {
     dimension: sector {}
     dimension: sector1 {
       type: string
-      sql: (select sector from (select sector from ${quick_window_function.SQL_TABLE_NAME}
-            where rank = 1))
+      sql: (select sector from ${quick_window_function.SQL_TABLE_NAME}
+            where rank = 1)
           ;;
     }
 
   dimension: sector2 {
     type: string
-    sql: (select sector from (select sector from ${quick_window_function.SQL_TABLE_NAME}
-            where rank = 2))
+    sql: (select sector from ${quick_window_function.SQL_TABLE_NAME}
+            where rank = 2)
           ;;
   }
 
   dimension: sector3 {
     type: string
-    sql: (select sector from (select sector from ${quick_window_function.SQL_TABLE_NAME}
-            where rank = 3))
+    sql: (select sector from ${quick_window_function.SQL_TABLE_NAME}
+            where rank = 3)
           ;;
   }
 

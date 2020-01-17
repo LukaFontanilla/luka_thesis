@@ -48,17 +48,21 @@ view: kiva_loans_main {
     html:
     <a href="#drillmenu" target="_self">
     <div class="vis">
-    <div class="vis-single-value" style="font-size:36px; background-image: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c); color:#000000">
-    <font color="#5A2FC2"; font-size:200%><center><b>{{value}}: </b>&nbsp; <img src="https://www.countryflags.io/{{country_code._value}}/shiny/64.png"></font>
+    {% if country._value == "Philippines" %}
+      <div class="vis-single-value" style="font-size:36px; background-image: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c); color:#000000">
+    {% else %}
+      <div class="vis-single-value" style="font-size:36px; background-image: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(221,172,83,1) 0%, rgba(0,212,255,1) 100%); color:#000000">
+    {% endif %}
+      <font color="#5A2FC2"; font-size:200%><center><b>{{value}}: </b>&nbsp; <img src="https://www.countryflags.io/{{country_code._value}}/shiny/64.png"></font>
 
-    <p>Total Amount of Loans: {{ count._value  }}</p>
-
-    <p style="float:left; font-family: Times, serif;">
-    <i class="fa fa-align-left">&nbsp;</i>First: {{ quick_window_function.sector1._value }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-align-center">&nbsp;</i>Second: {{ quick_window_function.sector2._value }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <i class="fa fa-align-right">&nbsp;</i>Third: {{ quick_window_function.sector3._value }}
-    </p></center>
-    </div>
+      <p>Total Amount of Loans: {{ count._value  }}</p>
+      <p><font color="#5A2FC2"; font-size:50%><center>Top Sectors by Loan Count</p>
+      <p style="float:left; font-family: Times, serif;">
+        <i class="fa fa-align-left">&nbsp;</i>First: {{ quick_window_function.sector1._value }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="fa fa-align-center">&nbsp;</i>Second: {{ quick_window_function.sector2._value }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="fa fa-align-right">&nbsp;</i>Third: {{ quick_window_function.sector3._value }}
+      </p></center>
+      </div>
     </div>
     </a>;;
   }
