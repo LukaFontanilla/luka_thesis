@@ -70,4 +70,9 @@ view: kiva_mpi_region_locations {
     type: count
     drill_fields: [location_name]
   }
+
+  measure: mpi_average {
+    type: average
+    sql: IFNULL(${mpi},0);;
+  }
 }

@@ -1,16 +1,16 @@
 view: use_word_analysis {
     derived_table: {
       sql: SELECT id, sector, use, use1 as use_test
-              FROM
+           FROM
               (
                 select id, sector, REGEXP_REPLACE(use, "[[:punct:]]", " ") as use
                 from `lukathesis.kiva_loans_main`
               ) g
-              LEFT JOIN UNNEST(SPLIT(use, ' ')) as use1
-              WHERE
-                ((use IS NOT NULL AND LENGTH(use) <> 0)) AND LENGTH(use1) > 2
-              GROUP BY 1,2,3,4
-              ORDER BY 1
+           LEFT JOIN UNNEST(SPLIT(use, ' ')) as use1
+           WHERE
+            ((use IS NOT NULL AND LENGTH(use) <> 0)) AND LENGTH(use1) > 2
+           GROUP BY 1,2,3,4
+           ORDER BY 1
                ;;
     }
 

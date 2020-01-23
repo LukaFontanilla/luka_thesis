@@ -13,7 +13,7 @@ view: kiva_loans_main {
     sql: ${TABLE}.activity ;;
   }
 
-  ### borrower_genders is currently in a string array ###
+  ### ----------------- borrower_genders is currently in a string array, unpack for analysis ###
 
   dimension: borrower_genders {
     type: string
@@ -35,12 +35,18 @@ view: kiva_loans_main {
     sql: ARRAY_LENGTH(SPLIT(kiva_loans_main.borrower_genders, ",")) ;;
   }
 
+  #### ------------- end ####
+
   dimension: country {
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
     #html: {{rendered_value}}||{{sector._rendered_value}} ;;
   }
+
+  #### ----------- Reed's single tile viz hmtl template #####
+  #### going to have the top 10 countries by mpi in a dash with each country's deets in the single tile viz #####
+
 
   dimension: country_test {
     type: string
@@ -51,7 +57,7 @@ view: kiva_loans_main {
     {% if country._value == "Philippines" %}
       <div class="vis-single-value" style="font-size:36px; background-image: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c); color:#000000">
     {% else %}
-      <div class="vis-single-value" style="font-size:36px; background-image: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(221,172,83,1) 0%, rgba(0,212,255,1) 100%); color:#000000">
+      <div class="vis-single-value" style="font-size:36px; background-image: linear-gradient(256deg, #ce66dc, #56dd91) 100%); color:#000000">
     {% endif %}
       <font color="#5A2FC2"; font-size:200%><center><b>{{value}}: </b>&nbsp; <img src="https://www.countryflags.io/{{country_code._value}}/shiny/64.png"></font>
 
@@ -67,7 +73,9 @@ view: kiva_loans_main {
     </a>;;
   }
 
-  ##### Country Comparitor #####
+  ##### ------------------- end #####
+
+  ##### ------------------- Country Comparitor #####
 
   filter: country_select {
     type: string
@@ -83,7 +91,7 @@ view: kiva_loans_main {
          END;;
   }
 
-  ##### End #####
+  ##### ------------------- End #####
 
   dimension: country_code {
     type: string
@@ -211,12 +219,12 @@ view: kiva_loans_main {
     sql: ${TABLE}.term_in_months ;;
   }
 
-  dimension: use {
-    type: string
-    sql: REGEXP_REPLACE(${TABLE}.use, "[[:punct:]]", " ") ;;
-#     html: {% assign kiva_loans_main.use = value %}
-#             {{value | downcase }}:{% for %};;
-  }
+#   dimension: use {
+#     type: string
+#     sql: REGEXP_REPLACE(${TABLE}.use, "[[:punct:]]", " ") ;;
+# #     html: {% assign kiva_loans_main.use = value %}
+# #             {{value | downcase }}:{% for %};;
+#   }
 
   measure: count {
     type: count
