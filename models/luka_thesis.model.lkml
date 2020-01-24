@@ -66,6 +66,12 @@ explore: kiva_loans_main {
     sort: {field:count desc:yes}
     limit: 5
   }
+  query: total_funded_amount_by_year {
+    dimensions: [date_year]
+    measures: [total_funded_amount]
+    sort: {field:date_year desc:no}
+    limit: 10
+  }
 }
 
 explore: use_word_analysis {}

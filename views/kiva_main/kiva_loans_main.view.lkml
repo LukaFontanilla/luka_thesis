@@ -269,6 +269,11 @@ view: kiva_loans_main {
     value_format: "##.00%"
   }
 
+  measure: total_funded_amount {
+    type: sum
+    sql: ${funded_amount} ;;
+  }
+
 
   ##### Measures to include
   ### start working on sums, slicing up the measures using filters (on region, state, country, sector, etc.)
