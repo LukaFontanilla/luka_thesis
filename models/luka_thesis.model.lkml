@@ -1,10 +1,13 @@
-connection: "lookerdata_standard_sql"
+#connection: "lookerdata_standard_sql" ## for dev instance
+connection: "bigquery_publicdata_standard_sql" ## for master instance
 
 # include all the views
 include: "/views/**/*.view"
 include: "/BQML_analysis/*.view"
 include: "/views/dynamic_rank/**/*.view"
 include: "/views/kiva_main/**/*.view"
+
+aggregate_awareness: yes
 
 datagroup: luka_thesis_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -43,6 +46,19 @@ explore: kiva_loans_main {
     relationship: many_to_one
     type: left_outer
     sql_on: ${kiva_loans_main.country} = ${quick_window_function.country} ;;
+  }
+
+  ###---------Turtles------------###
+  query: loans_by_created_year {
+    dimensions: [date_year]
+    measures: [count]
+    sort: {field:date_year desc:no}
+  }
+  query: loans_by_country {
+    dimensions: [country]
+    measures: [count]
+    sort: {field:count desc:yes}
+    limit: 10
   }
 }
 
