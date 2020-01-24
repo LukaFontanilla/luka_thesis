@@ -54,11 +54,17 @@ explore: kiva_loans_main {
     measures: [count]
     sort: {field:date_year desc:no}
   }
-  query: loans_by_country {
+  query: loans_by_country_top_10 {
     dimensions: [country]
     measures: [count]
     sort: {field:count desc:yes}
     limit: 10
+  }
+  query: loans_by_sector_top_5 {
+    dimensions: [sector]
+    measures: [count]
+    sort: {field:count desc:yes}
+    limit: 5
   }
 }
 
