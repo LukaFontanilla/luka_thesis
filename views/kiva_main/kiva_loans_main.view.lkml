@@ -73,6 +73,30 @@ view: kiva_loans_main {
     </a>;;
   }
 
+  dimension: kiva_image {
+    type: string
+    sql: ${country} ;;
+    html: <div class="container">
+            <img style='height: 80%; width: 70%; object-fit: contain' src="https://www-kiva-org.global.ssl.fastly.net/rgit6cb87e41a8dee496953ee375c971fb1b9114fd6c/img/kiva_k_cutout_new.jpg" />
+          </div>;;
+    }
+
+  dimension: kiva_description {
+    type: string
+    sql: ${country};;
+    html: <a href="#drillmenu" target="_self">
+    <div class="vis">
+    <div class="vis-single-value" style="font-size:36px; background-image: white; color:#000000">
+      <p>Kiva Loan Lending Home</p>
+
+      <p style="float:left; font-family: Times, serif;">
+        <i class="fa fa-align-left">&nbsp;</i>Path: By Country  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="fa fa-align-right">&nbsp;</i>&nbsp;&nbsp;&nbsp;Path: By MPI
+      </p></center>
+      </div>
+    </div>
+    </a> ;;
+  }
   ##### ------------------- end #####
 
   ##### ------------------- Country Comparitor #####
@@ -243,6 +267,11 @@ view: kiva_loans_main {
     type: number
     sql: ${count_yes}/${count} ;;
     value_format: "##.00%"
+  }
+
+  measure: total_funded_amount {
+    type: sum
+    sql: ${funded_amount} ;;
   }
 
 
