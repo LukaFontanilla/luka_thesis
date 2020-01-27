@@ -8,7 +8,8 @@ view: use_word_analysis {
               ) g
            LEFT JOIN UNNEST(SPLIT(use, ' ')) as use1
            WHERE
-            ((use IS NOT NULL AND LENGTH(use) <> 0)) AND LENGTH(use1) > 2
+            ((use IS NOT NULL AND LENGTH(use) <> 0)) AND LENGTH(use1) > 2 AND use1 NOT IN
+            ('and', 'for', 'her', 'his', 'other', 'like', 'etc', 'new', 'the')
            GROUP BY 1,2,3,4
            ORDER BY 1
                ;;
