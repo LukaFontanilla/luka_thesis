@@ -1,7 +1,7 @@
 view: quick_window_function {
     derived_table: {
       sql: select country, sector, row_number() over(partition by country order by count(*) desc) as rank
-           from lukathesis.kiva_loans_main
+           from lookerdata.lukathesis.kiva_loans_main
            where {% condition country_param %} country {% endcondition %}
            group by country, sector;;
       }
@@ -37,5 +37,10 @@ view: quick_window_function {
     dimension: rank {
       type: number
       sql: ${TABLE}.rank;;
+  }
+
+  measure: count_rank_1 {
+    type: number
+    sql: count(${sector1}) ;;
   }
 }
