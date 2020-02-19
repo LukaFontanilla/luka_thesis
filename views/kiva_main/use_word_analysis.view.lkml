@@ -1,18 +1,44 @@
 view: use_word_analysis {
     derived_table: {
-      sql: SELECT id, sector, use, use1 as use_test
+      sql: SELECT id
+                  , sector
+                  , country
+                  , use
+                  , regexp_replace(use1, '"', '') as use_test
            FROM
               (
-                select id, sector, REGEXP_REPLACE(use, "[[:punct:]]", " ") as use
+                select id
+                      , sector
+                      , country
+                      , REGEXP_REPLACE(use, "[[:punct:]]", " ") as use
                 from `lukathesis.kiva_loans_main`
               ) g
            LEFT JOIN UNNEST(SPLIT(use, ' ')) as use1
            WHERE
-            ((use IS NOT NULL AND LENGTH(use) <> 0)) AND LENGTH(use1) > 2 AND use1 NOT IN
-            ('and', 'for', 'her', 'his', 'other', 'like', 'etc', 'new', 'the')
-           GROUP BY 1,2,3,4
+                ((use IS NOT NULL AND LENGTH(use) <> 0)) AND LENGTH(use1) > 2
+              AND
+                use1 NOT IN ('and', 'for', 'her', 'his', 'other', 'like', 'etc', 'new', 'the')
+              AND
+                {% if country_filter._in_query %}
+                  {% condition country_filter %} country {% endcondition %}
+                {% elsif sector_filter._in_query %}
+                  {% condition sector_filter %} sector {% endcondition %}
+                {% else %}
+                  1=1
+                {% endif %}
+           GROUP BY 1,2,3,4,5
            ORDER BY 1
                ;;
+    }
+
+    filter: country_filter {
+      type: string
+      suggest_dimension: country
+    }
+
+    filter: sector_filter {
+      type: string
+      suggest_dimension: sector
     }
 
     measure: count {
@@ -28,6 +54,11 @@ view: use_word_analysis {
     dimension: sector {
       type: string
       sql: ${TABLE}.sector ;;
+    }
+
+    dimension: country {
+      type: string
+      sql: ${TABLE}.country ;;
     }
 
     dimension: use {
