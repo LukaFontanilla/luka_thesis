@@ -82,3 +82,5 @@ explore: use_word_analysis {
     sql_on: ${use_word_analysis.use_test} = ${uwanlp.use_test} ;;
   }
 }
+
+explore: dynamic_rank_count_by_country_sector {}
