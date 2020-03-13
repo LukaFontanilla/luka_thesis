@@ -75,6 +75,7 @@ explore: kiva_loans_main {
 }
 
 explore: use_word_analysis {
+  sql_always_where: ${uwanlp.noun_classification} = "Noun" ;;
   join: uwanlp {
     type: left_outer
     relationship: many_to_one

@@ -1,6 +1,9 @@
+### this is a view pulled in for NLP analysis
+### the classifying done is done for nouns and not nouns
+
+
 view: uwanlp {
-  sql_table_name: `lookerdata.lukathesis.uwanlp`
-    ;;
+  sql_table_name: `lookerdata.lukathesis.uwanlp` ;;
 
   dimension: count {
     hidden: yes
