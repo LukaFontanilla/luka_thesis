@@ -142,6 +142,7 @@ view: kiva_loans_main {
       date,
       week,
       month,
+      month_num,
       quarter,
       year
     ]
