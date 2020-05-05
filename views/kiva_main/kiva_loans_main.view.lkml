@@ -231,6 +231,14 @@ view: kiva_loans_main {
   dimension: sector {
     type: string
     sql: ${TABLE}.sector ;;
+    link: {
+      label: "testing"
+      url: "{{link}}"
+    }
+    link: {
+      label: "ggg"
+      url: "{{link}}"
+    }
   }
 
   dimension: tags {
