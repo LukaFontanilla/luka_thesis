@@ -15,7 +15,7 @@ datagroup: luka_thesis_default_datagroup {
   max_cache_age: "1 hour"
 }
 
-persist_with: luka_thesis_default_datagroup
+#persist_with: luka_thesis_default_datagroup
 
 explore: kiva_loans_main {
   #sql_always_where: ${kiva_loans_main.country} = {% parameter quick_window_function.country_param %} ;;
@@ -75,4 +75,13 @@ explore: kiva_loans_main {
   # }
 }
 
-explore: use_word_analysis {}
+explore: use_word_analysis {
+  sql_always_where: ${uwanlp.noun_classification} = "Noun" ;;
+  join: uwanlp {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${use_word_analysis.use_test} = ${uwanlp.use_test} ;;
+  }
+}
+
+explore: dynamic_rank_count_by_country_sector {}

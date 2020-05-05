@@ -2,6 +2,8 @@ view: kiva_mpi_region_locations {
   derived_table: {
     sql: select row_number() over(order by country) as prime_key, *
         from lukathesis.kiva_mpi_region_locations ;;
+
+        persist_for: "5 minutes"
   }
 
   dimension: prime_key {

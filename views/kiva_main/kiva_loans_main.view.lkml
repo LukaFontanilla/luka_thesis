@@ -41,6 +41,10 @@ view: kiva_loans_main {
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
+    link: {
+      label: "Individual Country Overview"
+      url: "/dashboards/3686?Country Filter={{value}}&Country 2nd Filter={{value}}"
+    }
     #html: {{rendered_value}}||{{sector._rendered_value}} ;;
   }
 
@@ -65,7 +69,7 @@ view: kiva_loans_main {
       <p><font color="#5A2FC2"; font-size:50%><center>Top Sectors by Loan Count</p>
       <p style="float:left; font-family: Times, serif;">
         <i class="fa fa-align-left">&nbsp;</i>First: {{ quick_window_function.sector1._value }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <i class="fa fa-align-center">&nbsp;</i>Second: {{ quick_window_function.sector2._value }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="fa fa-align-center">&nbsp;</i>Second: {{ quick_window_function.sector2._value }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="fa fa-align-right">&nbsp;</i>Third: {{ quick_window_function.sector3._value }}
       </p></center>
       </div>
