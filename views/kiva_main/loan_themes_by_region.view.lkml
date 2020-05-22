@@ -116,6 +116,13 @@ view: loan_themes_by_region {
     sql: ${TABLE}.sector ;;
   }
 
+  measure: avg_rural_pct {
+    type: average
+    description: "There are some region/location dimensions in this table
+        that are fairly Repeated, so am averageing out their values to get a better descriptor"
+    sql: ${rural_pct} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [location_name, field_partner_name]
