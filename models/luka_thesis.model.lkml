@@ -11,13 +11,14 @@ include: "/LookML_Dashboards/**/*.dashboard"
 aggregate_awareness: yes
 
 datagroup: luka_thesis_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+  sql_trigger: SELECT MAX(id) FROM kiva_loans_main;;
+  max_cache_age: "24 hours"
 }
 
 #persist_with: luka_thesis_default_datagroup
 
 explore: kiva_loans_main {
+  persist_with: luka_thesis_default_datagroup
   #sql_always_where: ${kiva_loans_main.country} = {% parameter quick_window_function.country_param %} ;;
   join: num {
     type: cross

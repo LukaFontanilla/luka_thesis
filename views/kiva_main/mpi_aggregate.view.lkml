@@ -15,6 +15,7 @@ view: mpi_aggregate {
             {% endif %}
       LIMIT 10
        ;;
+    datagroup_trigger: luka_thesis_default_datagroup
   }
 
   measure: count {
