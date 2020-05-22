@@ -11,7 +11,7 @@ include: "/LookML_Dashboards/**/*.dashboard"
 aggregate_awareness: yes
 
 datagroup: luka_thesis_default_datagroup {
-  sql_trigger: SELECT MAX(id) FROM kiva_loans_main;;
+  sql_trigger: SELECT MAX(id) FROM `lukathesis.kiva_loans_main`;;
   max_cache_age: "24 hours"
 }
 
