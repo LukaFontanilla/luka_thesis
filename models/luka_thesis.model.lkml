@@ -18,7 +18,6 @@ datagroup: luka_thesis_default_datagroup {
 #persist_with: luka_thesis_default_datagroup
 
 explore: kiva_loans_main {
-  persist_with: luka_thesis_default_datagroup
   #sql_always_where: ${kiva_loans_main.country} = {% parameter quick_window_function.country_param %} ;;
   join: num {
     type: cross
