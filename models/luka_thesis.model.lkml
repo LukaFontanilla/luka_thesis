@@ -85,3 +85,4 @@ explore: use_word_analysis {
 }
 
 explore: dynamic_rank_count_by_country_sector {}
+explore: mpi_aggregate {}

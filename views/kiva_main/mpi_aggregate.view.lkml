@@ -11,7 +11,7 @@ view: mpi_aggregate {
             {% elsif sub_national_region._is_filtered %}
               {% condition %} sub_national_region {% endcondition %}
             {% else %}
-              1
+              1=1
             {% endif %}
       LIMIT 10
        ;;
@@ -26,6 +26,7 @@ view: mpi_aggregate {
   dimension: iso {
     type: string
     sql: ${TABLE}.ISO ;;
+    map_layer_name: countries
   }
 
   dimension: country {
