@@ -29,7 +29,7 @@ view: use_word_analysis {
            GROUP BY 1,2,3,4,5
            ORDER BY 1
                ;;
-    datagroup_trigger: luka_thesis_default_datagroup
+    persist_for: "48 hours"
     }
 
     filter: country_filter {

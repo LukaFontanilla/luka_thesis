@@ -4,7 +4,7 @@ view: quick_window_function {
            from lukathesis.kiva_loans_main
            where {% condition country_param %} country {% endcondition %}
            group by country, sector;;
-      datagroup_trigger: luka_thesis_default_datagroup
+      persist_for: "48 hours"
       }
 
 
