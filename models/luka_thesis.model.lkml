@@ -73,6 +73,11 @@ explore: kiva_loans_main {
     sort: {field:date_year desc:no}
     limit: 10
   }
+  query: average_mpi_by_region_over_time {
+    dimensions: [kiva_mpi_region_locations.world_region]
+    measures: [kiva_mpi_region_locations.mpi_average]
+    sort: {field:kiva_mpi_region_locations.mpi_average desc:yes}
+  }
 }
 
 explore: use_word_analysis {
