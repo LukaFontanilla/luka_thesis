@@ -114,6 +114,12 @@ view: kiva_loans_main {
     suggest_dimension: country
   }
 
+  filter: date_Test {
+    type:date
+    view_label: " Common Date Range Filter"
+    label: ""
+  }
+
   dimension: country_comparitor {
     type: string
     sql: CASE
