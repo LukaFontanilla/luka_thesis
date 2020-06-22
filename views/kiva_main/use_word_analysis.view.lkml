@@ -29,6 +29,7 @@ view: use_word_analysis {
            GROUP BY 1,2,3,4,5
            ORDER BY 1
                ;;
+    persist_for: "48 hours"
     }
 
     filter: country_filter {

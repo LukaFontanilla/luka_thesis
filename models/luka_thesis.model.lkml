@@ -1,17 +1,18 @@
-#connection: "lookerdata_standard_sql" ## for dev instance
-connection: "bigquery_publicdata_standard_sql" ## for master instance
+connection: "lookerdata_standard_sql" ## for dev instance
+#connection: "bigquery_publicdata_standard_sql" ## for master instance
 
 # include all the views
 include: "/views/**/*.view"
 include: "/BQML_analysis/*.view"
 include: "/views/dynamic_rank/**/*.view"
 include: "/views/kiva_main/**/*.view"
+include: "/LookML_Dashboards/**/*.dashboard"
 
 aggregate_awareness: yes
 
 datagroup: luka_thesis_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+  sql_trigger: SELECT MAX(id) FROM `lukathesis.kiva_loans_main`;;
+  max_cache_age: "24 hours"
 }
 
 #persist_with: luka_thesis_default_datagroup
@@ -72,6 +73,11 @@ explore: kiva_loans_main {
     sort: {field:date_year desc:no}
     limit: 10
   }
+  query: average_mpi_by_region_over_time {
+    dimensions: [kiva_mpi_region_locations.world_region]
+    measures: [kiva_mpi_region_locations.mpi_average]
+    sort: {field:kiva_mpi_region_locations.mpi_average desc:yes}
+  }
 }
 
 explore: use_word_analysis {
@@ -84,3 +90,4 @@ explore: use_word_analysis {
 }
 
 explore: dynamic_rank_count_by_country_sector {}
+explore: mpi_aggregate {}

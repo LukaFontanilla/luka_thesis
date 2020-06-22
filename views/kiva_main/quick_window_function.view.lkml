@@ -4,7 +4,9 @@ view: quick_window_function {
            from lukathesis.kiva_loans_main
            where {% condition country_param %} country {% endcondition %}
            group by country, sector;;
+      persist_for: "48 hours"
       }
+
 
     dimension: country {}
     dimension: sector {}

@@ -6,6 +6,10 @@ view: kiva_loans_main {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    link: {
+      label: "Kiva Loan Page"
+      url: "https://www.kiva.org/lend?queryString={{value}}"
+    }
   }
 
   dimension: activity {
@@ -236,6 +240,14 @@ view: kiva_loans_main {
   dimension: sector {
     type: string
     sql: ${TABLE}.sector ;;
+    link: {
+      label: "testing"
+      url: "{{link}}"
+    }
+    link: {
+      label: "ggg"
+      url: "{{link}}"
+    }
   }
 
   dimension: tags {
