@@ -1,5 +1,5 @@
-connection: "lookerdata_standard_sql" ## for dev instance
-#connection: "bigquery_publicdata_standard_sql" ## for master instance
+#connection: "lookerdata_standard_sql" ## for dev instance
+connection: "bigquery_publicdata_standard_sql" ## for master instance
 
 # include all the views
 include: "/views/**/*.view"
