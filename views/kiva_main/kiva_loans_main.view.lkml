@@ -2,7 +2,7 @@ view: kiva_loans_main {
   sql_table_name: lukathesis.kiva_loans_main ;;
   drill_fields: [id]
 
-###
+####
   dimension: id {
     primary_key: yes
     type: number
