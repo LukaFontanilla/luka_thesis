@@ -2,6 +2,7 @@ view: kiva_loans_main {
   sql_table_name: lukathesis.kiva_loans_main ;;
   drill_fields: [id]
 
+###
   dimension: id {
     primary_key: yes
     type: number
@@ -118,6 +119,7 @@ view: kiva_loans_main {
     type:date
     view_label: " Common Date Range Filter"
     label: ""
+    sql: {% condition %} timestamp(${date_raw}) {% endcondition %};;
   }
 
   dimension: country_comparitor {
