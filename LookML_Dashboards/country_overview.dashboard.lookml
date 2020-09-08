@@ -13,7 +13,7 @@
     height: 8
   - title: Top 10 Loan Count by Country
     name: Top 10 Loan Count by Country
-    model: luka_thesis
+    model: luka_thesis_1
     explore: kiva_loans_main
     type: looker_bar
     fields: [kiva_loans_main.country, kiva_loans_main.count]
