@@ -56,6 +56,11 @@ view: kiva_loans_main {
   #### ----------- Reed's single tile viz hmtl template #####
   #### going to have the top 10 countries by mpi in a dash with each country's deets in the single tile viz #####
 
+  dimension: lukaaaa {
+    type: string
+    sql: ${TABLE}.country ;;
+    html: <div class="vis"><div class="vis-single-value" style="font-size:36px; background-image: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c); color:#000000"></div></div> ;;
+  }
 
   dimension: country_test {
     type: string
@@ -278,6 +283,12 @@ view: kiva_loans_main {
   measure: count {
     type: count
     drill_fields: [id]
+    html: <a href="#drillmenu" target="_self">
+    <div class="vis">
+      <div class="vis-single-value" style="font-size:36px; background-image: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c); color:#000000">
+      <p>{{rendered_value}}</p>
+      </div>
+    </div>;;
   }
 
   measure: count_yes {
