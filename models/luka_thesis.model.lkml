@@ -7,7 +7,7 @@ include: "/BQML_analysis/*.view"
 include: "/views/dynamic_rank/**/*.view"
 include: "/views/kiva_main/**/*.view"
 
-#
+#testing
 # aggregate_awareness: yes ####
 
 datagroup: luka_thesis_default_datagroup {
