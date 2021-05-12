@@ -6,9 +6,8 @@ include: "/views/**/*.view"
 include: "/BQML_analysis/*.view"
 include: "/views/dynamic_rank/**/*.view"
 include: "/views/kiva_main/**/*.view"
+include: "/LookML_Dashboards/**/*.dashboard"
 
-#testing
-# aggregate_awareness: yes ####
 
 datagroup: luka_thesis_default_datagroup {
   sql_trigger: SELECT MAX(id) FROM `lukathesis.kiva_loans_main`;;
@@ -46,6 +45,12 @@ explore: kiva_loans_main {
     relationship: many_to_one
     type: inner
     sql_on: ${kiva_loans_main.country} = ${test_dt.country};;
+  }
+  join: test_dt2 {
+    from: test_dt
+    relationship: many_to_one
+    type: inner
+    sql_on: ${kiva_loans_main.country} = ${test_dt2.country};;
   }
   join: quick_window_function {
     relationship: many_to_one
@@ -98,5 +103,5 @@ explore: use_word_analysis {
   # }
 }
 
-explore: dynamic_rank_count_by_country_sector {}
-explore: mpi_aggregate {}
+# explore: dynamic_rank_count_by_country_sector {}
+# explore: mpi_aggregate {}

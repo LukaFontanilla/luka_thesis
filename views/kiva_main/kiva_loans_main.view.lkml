@@ -8,12 +8,59 @@ view: kiva_loans_main {
     type: number
     sql: ${TABLE}.id ;;
     link: {
-      label: "Kiva Loan Page"
+      label: "Kiva Loan Page" #
       url: "https://www.kiva.org/lend?queryString={{value}}"
     }
   }
 
-  dimension: activity {
+  measure: dxx {
+    type: max
+    sql: ${date_date} ;;
+  }
+
+  filter: test {
+    type: string
+    suggest_dimension: country
+    sql: contains({{test._value}}) ;;
+  }
+
+  parameter: language {
+    label: "Language"
+    type: string
+    allowed_value: {
+      label:"Français"
+      value: "fr_FR"
+    }
+    allowed_value: {
+      label:"English"
+      value: "en"
+    }
+    allowed_value: {
+      label:"Deutsche"
+      value: "de_DE"
+    }
+    allowed_value: {
+      label:"Italiano"
+      value: "it_IT"
+    }
+    default_value: "fr_FR"
+  }
+
+  filter: hehre {
+    type: number
+    sql: ${funded_amount} >= {{_user_attribute['id]}} ;;
+  }
+
+  parameter: tessss {
+    type: string
+  }
+
+  # dimension: activity {
+  #   type: string
+  #   sql: ${TABLE}.activity ;;
+  # }
+
+  dimension: activ_test {
     type: string
     sql: ${TABLE}.activity ;;
   }
