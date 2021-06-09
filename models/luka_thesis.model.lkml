@@ -6,8 +6,12 @@ include: "/views/**/*.view"
 include: "/BQML_analysis/*.view"
 include: "/views/dynamic_rank/**/*.view"
 include: "/views/kiva_main/**/*.view"
-include: "/LookML_Dashboards/**/*.dashboard"
 
+<<<<<<< HEAD
+=======
+#testing
+# aggregate_awareness: yes ####
+>>>>>>> branch 'main' of git@github.com:LukaFontanilla/luka_thesis.git
 
 datagroup: luka_thesis_default_datagroup {
   sql_trigger: SELECT MAX(id) FROM `lukathesis.kiva_loans_main`;;
@@ -63,8 +67,15 @@ explore: kiva_loans_mainn {
 #persist_with: luka_thesis_default_datagroup
 
 explore: kiva_loans_main {
+<<<<<<< HEAD
   label: "1 Kiva Loans Main"
 
+=======
+  # access_filter: {
+  #   field: kiva_mpi_region_locations.iso
+  #   user_attribute: country_luka
+  # }
+>>>>>>> branch 'main' of git@github.com:LukaFontanilla/luka_thesis.git
 
   join: num {
     type: cross
@@ -134,6 +145,11 @@ explore: use_word_analysis {
     relationship: many_to_one
     sql_on: ${use_word_analysis.use_test} = ${uwanlp.use_test} ;;
   }
+  # join: kiva_loans_main {
+  #   type: left_outer
+  #   relationship: many_to_one
+  #   sql_on: 0=1 ;;
+  # }
 }
 
 explore: dynamic_rank_count_by_country_sector {}
