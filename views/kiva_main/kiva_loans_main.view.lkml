@@ -13,9 +13,56 @@ view: kiva_loans_main {
     }
   }
 
+  dimension: pic_img {
+    type: string
+    sql: 'https://dummyimage.com/600x400/000/fff' ;;
+    html: <a href="https://dummyimage.com/600x400/000/fff" target="_blank"><img src="{{value}}" /></a>;;
+  }
+
+  filter: datetest {
+    type: date
+  }
+
+  parameter: jgksg {
+    type: date
+    label: ""
+  }
+
+  dimension: datetest2 {
+    type: date
+    sql: {% date_start datetest %} ;;
+  }
+
   dimension: activity {
     type: string
     sql: ${TABLE}.activity ;;
+    html: {% assign val = activity %}
+    {% for value in val %}
+            <h1>{{value}}</h1>
+          {% endfor %};;
+  }
+
+  measure: activity_list {
+    type: list
+    list_field: activity
+  }
+
+  parameter: date {
+    type: date
+  }
+
+  dimension: datedate {
+    type: string
+    sql: case when current_date() < {{ date._parameter_value }} then "uh-oh" else "yuik" end ;;
+  }
+
+  measure: test {
+    type: string
+    sql: max("test") ;;
+    html: {% assign val = activity_list._value | split: "," %}
+    {% for value in val %}
+            <h1>{{value}}</h1>
+          {% endfor %} ;;
   }
 
   ### ----------------- borrower_genders is currently in a string array, unpack for analysis ###
