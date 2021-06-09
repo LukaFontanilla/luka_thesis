@@ -8,16 +8,63 @@ include: "/views/dynamic_rank/**/*.view"
 include: "/views/kiva_main/**/*.view"
 include: "/LookML_Dashboards/**/*.dashboard"
 
-aggregate_awareness: yes
 
 datagroup: luka_thesis_default_datagroup {
   sql_trigger: SELECT MAX(id) FROM `lukathesis.kiva_loans_main`;;
   max_cache_age: "24 hours"
 }
 
+
+# explore: kiva_loans_mainn {
+#   from: kiva_loans_main
+
+#   join: +kiva_loans_main {
+#     type: left_outer
+#     fields: [kiva_loans_mainn.test_id]
+#     sql: ${kiva_loans_mainn.id} = ${kiva_loans_mainn.id} ;;
+#   }
+# }
+
+explore: kiva_loans_mainn {
+  view_name: kiva_loans_main
+  sql_always_where: {% if _view._name == "kiva_loans_main" %} ${id} = 1 {% endif %} ;;
+
+  join: num {
+    type: cross
+    relationship: one_to_many
+  }
+  join: loan_themes_ids {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${kiva_loans_main.id} = ${loan_themes_ids.id} ;;
+  }
+  join: loan_themes_by_region {
+    relationship: one_to_many
+    type: left_outer
+    sql_on: ${loan_themes_ids.loan_theme_id} = ${loan_themes_by_region.loan_theme_id} ;;
+  }
+  join: kiva_mpi_region_locations {
+    relationship: one_to_many
+    type: left_outer
+    sql_on: ${kiva_mpi_region_locations.region} = ${kiva_loans_main.region} ;;
+  }
+  join: test_dt {
+    relationship: many_to_one
+    type: inner
+    sql_on: ${kiva_loans_main.country} = ${test_dt.country};;
+  }
+  join: quick_window_function {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${kiva_loans_main.country} = ${quick_window_function.country} ;;
+  }
+  }
+
 #persist_with: luka_thesis_default_datagroup
 
 explore: kiva_loans_main {
+  label: "1 Kiva Loans Main"
+
 
   join: num {
     type: cross
