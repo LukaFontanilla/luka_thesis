@@ -7,11 +7,7 @@ include: "/BQML_analysis/*.view"
 include: "/views/dynamic_rank/**/*.view"
 include: "/views/kiva_main/**/*.view"
 
-<<<<<<< HEAD
-=======
-#testing
-# aggregate_awareness: yes ####
->>>>>>> branch 'main' of git@github.com:LukaFontanilla/luka_thesis.git
+
 
 datagroup: luka_thesis_default_datagroup {
   sql_trigger: SELECT MAX(id) FROM `lukathesis.kiva_loans_main`;;
@@ -31,7 +27,7 @@ datagroup: luka_thesis_default_datagroup {
 
 explore: kiva_loans_mainn {
   view_name: kiva_loans_main
-  sql_always_where: {% if _view._name == "kiva_loans_main" %} ${id} = 1 {% endif %} ;;
+
 
   join: num {
     type: cross
@@ -67,15 +63,7 @@ explore: kiva_loans_mainn {
 #persist_with: luka_thesis_default_datagroup
 
 explore: kiva_loans_main {
-<<<<<<< HEAD
-  label: "1 Kiva Loans Main"
 
-=======
-  # access_filter: {
-  #   field: kiva_mpi_region_locations.iso
-  #   user_attribute: country_luka
-  # }
->>>>>>> branch 'main' of git@github.com:LukaFontanilla/luka_thesis.git
 
   join: num {
     type: cross
