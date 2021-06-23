@@ -6,6 +6,7 @@ include: "/views/**/*.view"
 include: "/BQML_analysis/*.view"
 include: "/views/dynamic_rank/**/*.view"
 include: "/views/kiva_main/**/*.view"
+include: "/LookML_Dashboards/test.dashboard"
 
 
 
@@ -26,6 +27,7 @@ datagroup: luka_thesis_default_datagroup {
 # }
 
 explore: kiva_loans_mainn {
+  symmetric_aggregates: no
   view_name: kiva_loans_main
 
 
