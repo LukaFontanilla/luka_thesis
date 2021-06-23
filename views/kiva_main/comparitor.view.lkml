@@ -4,7 +4,7 @@ view: num {
     sql: SELECT 1 as n UNION ALL SELECT 2 ;;
   }
 
-  dimension: n {
+  dimension: nn {
     hidden: yes
   }
 }
