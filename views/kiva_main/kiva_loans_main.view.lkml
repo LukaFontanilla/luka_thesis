@@ -352,9 +352,14 @@ view: kiva_loans_main {
     value_format: "##.00%"
   }
 
+  measure: stringggy {
+    type: string
+    sql: case when ${total_funded_amount} > 1000 then "jeahhh" else "nahhh" end ;;
+  }
+
   measure: total_funded_amount {
-    type: sum
-    sql: ${funded_amount} ;;
+    type: number
+    sql: sum(${funded_amount})/${count_yes} ;;
   }
 
 
